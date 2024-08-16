@@ -30,8 +30,8 @@ This Terraform project provisions 20-30 virtual machines (VMs) on Microsoft Azur
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-repo/azure-vm-terraform.git
-cd azure-vm-terraform
+git clone https://github.com/Logesh-Devops/Azure-Terraform.git
+cd Azure-Terraform
 ```
 
 ### 2. Configure Variables
