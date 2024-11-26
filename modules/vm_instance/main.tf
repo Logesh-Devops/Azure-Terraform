@@ -11,6 +11,9 @@ resource "azurerm_network_interface" "main" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.main[count.index].id
   }
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 resource "azurerm_public_ip" "main" {
@@ -19,6 +22,9 @@ resource "azurerm_public_ip" "main" {
   location            = azurerm_resource_group.main.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 resource "azurerm_virtual_machine" "main" {
@@ -57,7 +63,8 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   tags = {
-    environment = "Production"
+    environment            = "Production"
+    asglabs_lod_azr_prisma = "flase "
   }
 }
 

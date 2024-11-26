@@ -6,6 +6,9 @@ provider "azurerm" {
 resource "azurerm_resource_group" "main" {
   name     = var.resource_group_name
   location = var.location
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 resource "azurerm_virtual_network" "main" {
@@ -13,6 +16,9 @@ resource "azurerm_virtual_network" "main" {
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 resource "azurerm_subnet" "main" {
@@ -23,14 +29,14 @@ resource "azurerm_subnet" "main" {
 }
 
 module "vm_instance" {
-  source            = "./modules/vm_instance"
-  count             = var.vm_count
+  source              = "./modules/vm_instance"
+  count               = var.vm_count
   resource_group_name = azurerm_resource_group.main.name
-  vm_name_prefix    = var.vm_name_prefix
-  vm_size           = var.vm_size
-  subnet_id         = azurerm_subnet.main.id
-  admin_username    = var.admin_username
-  admin_password    = var.admin_password
+  vm_name_prefix      = var.vm_name_prefix
+  vm_size             = var.vm_size
+  subnet_id           = azurerm_subnet.main.id
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
 }
 
 # Enable Azure Backup for VMs
@@ -41,12 +47,18 @@ resource "azurerm_backup_policy_vm" "backup_policy" {
   retention_daily {
     count = 7
   }
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 resource "azurerm_backup_protected_vm" "protected_vm" {
-  count        = var.vm_count
+  count            = var.vm_count
   backup_policy_id = azurerm_backup_policy_vm.backup_policy.id
-  source_vm_id    = module.vm_instance.vm_ids[count.index]
+  source_vm_id     = module.vm_instance.vm_ids[count.index]
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
+  }
 }
 
 # DR Setup: replicate VMs in a different region
@@ -83,6 +95,9 @@ resource "azurerm_virtual_machine" "dr" {
 
   os_profile_linux_config {
     disable_password_authentication = false
+  }
+  tags = {
+    asglabs_lod_azr_prisma = "flase "
   }
 }
 
